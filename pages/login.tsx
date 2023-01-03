@@ -1,11 +1,10 @@
 import type { NextPage } from 'next';
 import { Input, PageContainer, Button } from '../src/components/common';
-import { } from '../src/components/common/Button';
-import styles from '../styles/login.module.css';
+import appStyles from '../styles/app.module.css';
 
 const LoginPage: NextPage = () => {
     return (
-        <PageContainer className={styles.wrapper}>
+        <PageContainer className={appStyles.wrapper}>
             <div>
                 <h1>Login</h1>
             </div>

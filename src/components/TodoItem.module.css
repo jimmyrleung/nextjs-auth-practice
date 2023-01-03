@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 250px;
+}
+
+.doneCheck {
+  width: 20px;
+  height: 20px;
+}
+
+.title,
+.description {
+  margin: 5px 0px;
+}
+
+.title {
+  font-weight: 500;
+}
+
+.description {
+  font-size: 0.8em;
+  color: #444444;
+  font-style: italic;
+}

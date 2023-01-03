@@ -1,5 +1,5 @@
 interface PageContainerProps extends React.PropsWithChildren {
-    className: string;
+    className?: string;
 }
 
 function PageContainer(props: PageContainerProps) {
