@@ -1,10 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { AuthService } from '../../api/controllers/AuthController';
-import { JWTAdapter } from '../../api/token/JWTAdapter';
+import AuthServiceFactory from '../../api/AuthServiceFactory';
 
-const tokenModule = new JWTAdapter();
-const authService = new AuthService(tokenModule);
+const authService = AuthServiceFactory.build();
 
 const operations: { [key: string]: (req: NextApiRequest, res: NextApiResponse) => void } = {
     POST: authService.login.bind(authService)
