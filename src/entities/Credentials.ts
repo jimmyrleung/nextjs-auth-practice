@@ -1,0 +1,13 @@
+export class Credentials {
+    email: string;
+    password: string;
+
+    constructor(email: string = '', password: string = '') {
+        this.email = email;
+        this.password = password;
+    }
+
+    isValid() {
+        return this.email && this.password;
+    }
+}
