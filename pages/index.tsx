@@ -1,4 +1,5 @@
-import type { NextPage, NextPageContext } from 'next';
+import type { NextPage } from 'next';
+import { Session, SESSION_STATE, withSession } from '../src/hocs';
 
 const IndexPage: NextPage = () => {
   return (
@@ -8,10 +9,20 @@ const IndexPage: NextPage = () => {
 
 export default IndexPage;
 
-export const getServerSideProps = (context: NextPageContext) => {
-  const isValid = true;
+export const getServerSideProps = withSession((session: Session) => {
+  const { state } = session;
 
-  if (!isValid) {
+  // TODO: abstract this logic so we don't have to configure this callback in every page
+  if (state === SESSION_STATE.VALID || state === SESSION_STATE.REFRESHED) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/todos'
+      }
+    };
+  }
+
+  if (state === SESSION_STATE.EMPTY || state === SESSION_STATE.EXPIRED) {
     return {
       redirect: {
         permanent: false,
@@ -19,11 +30,4 @@ export const getServerSideProps = (context: NextPageContext) => {
       }
     };
   }
-
-  return {
-    redirect: {
-      permanent: false,
-      destination: '/todos'
-    }
-  };
-};
+});
