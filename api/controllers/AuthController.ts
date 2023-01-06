@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { TokenModule } from "./TokenModule";
+import { setCookie } from 'nookies'
 
 const users = [
     { id: 1, email: 'user1@test.com', password: 'senha123', roles: [] },
@@ -28,9 +29,21 @@ export class AuthService {
             });
         }
 
-        res.status(200).json({
-            accessToken: this.tokenModule.create('access', { id: user?.id }),
-            refreshToken: this.tokenModule.create('refresh', { id: user?.id })
+        const accessToken = this.tokenModule.create('access', { id: user?.id });
+        const refreshToken = this.tokenModule.create('refresh', { id: user?.id });
+
+        setCookie({ res }, 'ACCESS_TOKEN_KEY', accessToken, {
+            httpOnly: true,
+            sameSite: 'lax',
+            path: '/'
         });
+
+        setCookie({ res }, 'REFRESH_TOKEN_KEY', refreshToken, {
+            httpOnly: true,
+            sameSite: 'lax',
+            path: '/'
+        });
+
+        res.status(200).json({});
     }
 }

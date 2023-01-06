@@ -14,7 +14,7 @@ export class JWTAdapter implements TokenModule {
     }
     private getOptionsByType(type: "access" | "refresh"): jwt.SignOptions {
         const expiresIn = type === 'access'
-            ? '20s' : '1d';
+            ? '20s' : '60s';
 
         return { expiresIn };
     }
