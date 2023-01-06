@@ -18,6 +18,7 @@ export function TodoItem({ todo, className = '' }: TodoItemProps) {
                     type='checkbox'
                     checked={todo.done}
                     className={styles.doneCheck}
+                    onChange={() => console.log('check')}
                 />
             </div>
         </div>

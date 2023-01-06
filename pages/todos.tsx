@@ -4,6 +4,7 @@ import styles from '../styles/todos.module.css';
 import { PageContainer } from '../src/components/common';
 import { TodoItem } from '../src/components';
 import { Todo } from '../src/entities';
+import { Session, SESSION_STATE, withSession } from '../src/hocs';
 
 const now = Date.now();
 const todos: Todo[] = [
@@ -23,3 +24,22 @@ const TodosPage: NextPage = () => {
 }
 
 export default TodosPage;
+
+export const getServerSideProps = withSession((session: Session) => {
+    const { state } = session;
+
+    // TODO: abstract this logic so we don't have to configure this callback in every page
+    if (state === SESSION_STATE.VALID || state === SESSION_STATE.REFRESHED) {
+        return { props: {} };
+    }
+
+    if (state === SESSION_STATE.EMPTY || state === SESSION_STATE.EXPIRED) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/login'
+            }
+        };
+    }
+});
+
