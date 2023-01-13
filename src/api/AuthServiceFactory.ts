@@ -1,5 +1,5 @@
 import { AuthService } from './controllers/AuthController';
-import { JWTAdapter } from './token/JWTAdapter';
+import { JWTAdapter } from './infra/JWTAdapter';
 
 // On purpose: will try to centralize everything here
 const tokenModule = new JWTAdapter();

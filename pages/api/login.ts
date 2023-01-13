@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import AuthServiceFactory from '../../api/AuthServiceFactory';
+import AuthServiceFactory from '../../src/api/AuthServiceFactory';
 
 const authService = AuthServiceFactory.build();
 

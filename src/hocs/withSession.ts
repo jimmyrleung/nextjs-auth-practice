@@ -1,6 +1,6 @@
 import nookies, { setCookie } from 'nookies';
 import { NextPageContext } from "next";
-import { JWTAdapter } from '../../api/token/JWTAdapter';
+import { JWTAdapter } from '../api/infra/JWTAdapter';
 import { JwtPayload } from 'jsonwebtoken';
 
 export enum SESSION_STATE {

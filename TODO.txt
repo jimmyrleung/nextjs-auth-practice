@@ -1,0 +1,8 @@
+1. Implementar login e salvar cookies ✓
+2. Validar sessão (accessToken & refreshToken) ✓
+3. Implementar refresh token e redirects ✓
+4. Refatorar pasta "api" na raíz - levar para dentro do src ✓
+5. Refatorar withSession para não termos que ficar fazendo if(state === SESSION_STATE) em todas as páginas
+6. CRUD Todos
+7. Roles
+8. Validar roles
