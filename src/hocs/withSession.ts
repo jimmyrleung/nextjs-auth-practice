@@ -11,10 +11,12 @@ export enum SESSION_STATE {
 };
 
 export interface Session {
-    state: SESSION_STATE;
+    userId?: number;
+    isValid: boolean;
 }
 
 export function withSession(callback: (session: Session) => void) {
+    // TODO: encapsulate token logic to a separate class
     return async (context: NextPageContext) => {
         const cookies = nookies.get(context);
         const accessToken = cookies?.ACCESS_TOKEN_KEY;
@@ -22,23 +24,25 @@ export function withSession(callback: (session: Session) => void) {
 
         // First time accessing or cookies cleaned up
         if (!accessToken) {
-            return callback({ state: SESSION_STATE.EMPTY });
+            return callback({ isValid: false });
         }
 
-        // TODO: see how to abstract this
         const tokenModule = new JWTAdapter();
         const isAccessTokenValid = tokenModule.verify(accessToken, 'access');
 
         // Previous access token still valid
         if (isAccessTokenValid) {
-            return callback({ state: SESSION_STATE.VALID });
+            const jwt = tokenModule.decode(refreshToken);
+            const payload = jwt?.payload as JwtPayload;
+            const id = payload.id;
+            return callback({ isValid: true, userId: id });
         }
 
         // Check if refresh token is valid
         const isRefreshTokenValid = tokenModule.verify(refreshToken, 'refresh');
 
         if (!isRefreshTokenValid) {
-            return callback({ state: SESSION_STATE.EXPIRED });
+            return callback({ isValid: false });
         }
 
         // Replicate the token payload
@@ -62,6 +66,6 @@ export function withSession(callback: (session: Session) => void) {
             path: '/'
         });
 
-        return callback({ state: SESSION_STATE.REFRESHED })
+        return callback({ isValid: true, userId: id });
     }
 }

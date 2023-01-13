@@ -1,11 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import AuthControllerFactory from '../../src/api/AuthControllerFactory';
+import { TodosController } from '../../../src/api/controllers/TodosController';
 
-const authService = AuthControllerFactory.build();
+const todosController = new TodosController();
 
 const operations: { [key: string]: (req: NextApiRequest, res: NextApiResponse) => void } = {
-    POST: authService.login.bind(authService)
+    GET: todosController.getAll.bind(todosController)
 };
 
 export default function handler(

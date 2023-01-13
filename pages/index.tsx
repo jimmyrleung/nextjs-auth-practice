@@ -10,19 +10,7 @@ const IndexPage: NextPage = () => {
 export default IndexPage;
 
 export const getServerSideProps = withSession((session: Session) => {
-  const { state } = session;
-
-  // TODO: abstract this logic so we don't have to configure this callback in every page
-  if (state === SESSION_STATE.VALID || state === SESSION_STATE.REFRESHED) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/todos'
-      }
-    };
-  }
-
-  if (state === SESSION_STATE.EMPTY || state === SESSION_STATE.EXPIRED) {
+  if (!session.isValid) {
     return {
       redirect: {
         permanent: false,
@@ -30,4 +18,11 @@ export const getServerSideProps = withSession((session: Session) => {
       }
     };
   }
+
+  return {
+    redirect: {
+      permanent: false,
+      destination: '/todos'
+    }
+  };
 });

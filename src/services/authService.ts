@@ -1,5 +1,4 @@
 import { Credentials } from "../entities";
-const ACCESS_TOKEN_KEY = 'ACCESS_TOKEN_KEY';
 
 async function login(credentials: Credentials) {
     const loginResponse = await fetch('/api/login', {

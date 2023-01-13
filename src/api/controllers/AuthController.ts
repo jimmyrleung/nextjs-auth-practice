@@ -8,7 +8,7 @@ const users = [
     { id: 3, email: 'user3@test.com', password: 'senha789', roles: [] },
 ];
 
-export class AuthService {
+export class AuthController {
     constructor(private tokenModule: TokenModule) { }
 
     login(req: NextApiRequest, res: NextApiResponse) {
