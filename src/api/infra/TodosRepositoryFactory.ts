@@ -1,10 +1,10 @@
-import { TodosRepositoryInMemory } from './TodosRepositoryInMemory';
-
-// Create a single todosRepository as the data is all in memory 8)
-const todosRepository = new TodosRepositoryInMemory();
+import { DBConnection } from './DBConnection';
+import { TodosRepositoryDB } from './TodosRepositoryDB';
 
 export default class TodosRepositoryFactory {
-    static build(): TodosRepositoryInMemory {
+    static build(): TodosRepositoryDB {
+        const dbConnection = new DBConnection();
+        const todosRepository = new TodosRepositoryDB(dbConnection);
         return todosRepository;
     }
 }

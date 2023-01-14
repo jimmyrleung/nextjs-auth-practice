@@ -3,11 +3,22 @@
 3. Implementar refresh token e redirects ✓
 4. Refatorar pasta "api" na raíz - levar para dentro do src ✓
 5. Refatorar withSession para não termos que ficar fazendo if(state === SESSION_STATE) em todas as páginas ✓
-6. CRUD Todos
+
+===
+The middleware does not support JWT because of the Buffer module
+
+error - Error: The edge runtime does not support Node.js 'buffer' module.
+
+1. For now, resolve this issue with a temporary "decorator" that will inject the session into the req obj. ✓
+===
+
+6. Create minimum SQLite structure to persist the data and stop using it in memory
+7. CRUD Todos
 - GET todos ✓
 - Create todos
 - Check/Uncheck todos
 - Remove todos
-7. Validate token for incoming client requests
-8. Roles
-9. Validar roles
+8. Validate token for incoming client requests
+9. Roles
+10. Validar roles
+11. Refactor to a separate API (stop using Next.js)

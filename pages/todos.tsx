@@ -8,13 +8,21 @@ import { Todo } from '../src/entities';
 import { Session, withSession } from '../src/hocs';
 import TodosRepositoryFactory from '../src/api/infra/TodosRepositoryFactory';
 import { TodosList } from '../src/components/TodosList';
+import { todosService, CreateTodoParams } from '../src/services/todosService';
 
 const TodosPage: NextPage<{ todos: Todo[] }> = (props) => {
     const [todos, setTodos] = useState(props.todos || []);
+
+    async function onCreateSubmit(params: CreateTodoParams) {
+        if (params.title && params.description) {
+            await todosService.create(params);
+        }
+    }
+
     return (
         <PageContainer className={appStyles.wrapper}>
             <div className={styles.wrapper}>
-                <CreateTodo />
+                <CreateTodo onSubmit={onCreateSubmit} />
                 <TodosList todos={todos} />
             </div>
         </PageContainer>
@@ -38,7 +46,7 @@ export const getServerSideProps = withSession(async (session: Session) => {
     // TODO: once we move to an external API, we'll be using a gateway to get that
     if (session.userId) {
         const todosRepository = TodosRepositoryFactory.build();
-        todos = todosRepository.getAllByUserId(session.userId);
+        todos = await todosRepository.getAllByUserId(session.userId);
     }
 
     return { props: { todos } };

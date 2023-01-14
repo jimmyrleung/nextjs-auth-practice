@@ -3,7 +3,11 @@ import { Button, Input } from "./common";
 
 import styles from './CreateTodo.module.css';
 
-export function CreateTodo() {
+type CreateTodoProps = {
+    onSubmit(params: { title: string, description: string }): Promise<void>;
+}
+
+export function CreateTodo({ onSubmit }: CreateTodoProps) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     return (
@@ -26,7 +30,7 @@ export function CreateTodo() {
                 />
             </div>
             <div>
-                <Button onClick={() => { }}>Create</Button>
+                <Button onClick={() => onSubmit({ title, description })}>Create</Button>
             </div>
         </div>
     );

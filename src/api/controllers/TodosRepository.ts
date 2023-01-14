@@ -7,6 +7,6 @@ type CreateTodoParams = {
 }
 
 export interface TodosRepository {
-    getAllByUserId(userId: number): Todo[];
-    create(params: CreateTodoParams): void;
+    getAllByUserId(userId: number): Promise<Todo[]>;
+    create(params: CreateTodoParams): Promise<void>;
 }
