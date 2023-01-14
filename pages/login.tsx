@@ -42,7 +42,7 @@ const LoginPage: NextPage = () => {
                 />
             </div>
             <div>
-                <Button onClick={() => login(new Credentials(email, password))}>Entrar</Button>
+                <Button onClick={() => login(new Credentials(email, password))}>Log in</Button>
             </div>
         </PageContainer>
     )

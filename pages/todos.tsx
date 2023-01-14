@@ -3,18 +3,20 @@ import type { NextPage } from 'next';
 import appStyles from '../styles/app.module.css';
 import styles from '../styles/todos.module.css';
 import { PageContainer } from '../src/components/common';
-import { TodoItem } from '../src/components';
+import { CreateTodo } from '../src/components';
 import { Todo } from '../src/entities';
 import { Session, withSession } from '../src/hocs';
-import { TodosRepository } from '../src/api/infra/TodosRepository';
+import TodosRepositoryFactory from '../src/api/infra/TodosRepositoryFactory';
+import { TodosList } from '../src/components/TodosList';
 
 const TodosPage: NextPage<{ todos: Todo[] }> = (props) => {
     const [todos, setTodos] = useState(props.todos || []);
     return (
         <PageContainer className={appStyles.wrapper}>
-            {todos.map(todo => (
-                <TodoItem className={styles.todoItem} key={todo.id} todo={todo} />
-            ))}
+            <div className={styles.wrapper}>
+                <CreateTodo />
+                <TodosList todos={todos} />
+            </div>
         </PageContainer>
     )
 }
@@ -35,7 +37,7 @@ export const getServerSideProps = withSession(async (session: Session) => {
 
     // TODO: once we move to an external API, we'll be using a gateway to get that
     if (session.userId) {
-        const todosRepository = new TodosRepository();
+        const todosRepository = TodosRepositoryFactory.build();
         todos = todosRepository.getAllByUserId(session.userId);
     }
 

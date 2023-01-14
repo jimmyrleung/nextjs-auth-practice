@@ -1,3 +1,10 @@
 .todoItem:not(:last-child) {
-    border-bottom: 1px solid #d0d0d0;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 450px;
 }
