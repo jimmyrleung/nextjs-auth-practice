@@ -1,10 +1,5 @@
-export interface Todo {
-    id?: number;
-    userId: number;
-    title: string;
-    description: string;
-    done: boolean;
-};
+import { TodosRepository } from "../controllers/TodosRepository";
+import { Todo } from "../domain";
 
 const todos: Todo[] = [
     { id: 1, userId: 1, title: 'Study Next.js', description: 'Watch section 3', done: true },
@@ -20,9 +15,18 @@ const todos: Todo[] = [
     { id: 9, userId: 3, title: 'Study React', description: 'Continue the react hooks module', done: false }
 ];
 
-const lastTodoId = todos[todos.length - 1].id || 0;
+let lastTodoId = todos[todos.length - 1].id || 0;
 
-export class TodosRepository {
+export class TodosRepositoryInMemory implements TodosRepository {
+    create(params: { userId: number; title: string; description: string; }): void {
+        lastTodoId++;
+        const newTodo: Todo = {
+            id: lastTodoId,
+            done: false,
+            ...params
+        };
+        todos.push(newTodo);
+    }
     getAllByUserId(userId: number) {
         return todos.filter(todo => todo.userId === userId);
     }

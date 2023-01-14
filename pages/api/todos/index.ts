@@ -1,11 +1,14 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { TodosController } from '../../../src/api/controllers/TodosController';
+import TodosRepositoryFactory from '../../../src/api/infra/TodosRepositoryFactory';
 
-const todosController = new TodosController();
+const todosRepository = TodosRepositoryFactory.build();
+const todosController = new TodosController(todosRepository);
 
 const operations: { [key: string]: (req: NextApiRequest, res: NextApiResponse) => void } = {
-    GET: todosController.getAll.bind(todosController)
+    GET: todosController.getAll.bind(todosController),
+    POST: todosController.create.bind(todosController)
 };
 
 export default function handler(
