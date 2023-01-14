@@ -12,7 +12,7 @@ type NextOperationsMap = {
 }
 
 const operations: NextOperationsMap = {
-    GET: todosController.getAll.bind(todosController),
+    GET: withSession(todosController.getAll.bind(todosController)),
     POST: withSession(todosController.create.bind(todosController))
 };
 

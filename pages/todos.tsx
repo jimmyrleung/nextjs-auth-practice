@@ -16,6 +16,8 @@ const TodosPage: NextPage<{ todos: Todo[] }> = (props) => {
     async function onCreateSubmit(params: CreateTodoParams) {
         if (params.title && params.description) {
             await todosService.create(params);
+            const todos = await todosService.getAll();
+            setTodos(todos);
         }
     }
 

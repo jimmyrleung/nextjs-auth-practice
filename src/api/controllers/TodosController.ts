@@ -6,7 +6,7 @@ export class TodosController {
     constructor(private todosRepository: TodosRepository) {
     }
     async getAll(req: NextApiRequestWithSession, res: NextApiResponse) {
-        const todos = await this.todosRepository.getAllByUserId(1);
+        const todos = await this.todosRepository.getAllByUserId(req.session.userId);
         res.json(todos);
     }
     async create(req: NextApiRequestWithSession, res: NextApiResponse) {

@@ -7,7 +7,10 @@ export class TodosRepositoryDB implements TodosRepository {
     }
     async getAllByUserId(userId: number): Promise<Todo[]> {
         const todos = await this.connection.query('SELECT * FROM todos WHERE userId = ?', [userId]);
-        return todos;
+        return todos.map(todo => ({
+            ...todo,
+            done: !!todo.done
+        }));
     }
     async create(params: { userId: number; title: string; description: string; }): Promise<void> {
         const lastInsertedIdQuery = 'SELECT MAX(id) AS lastInsertedId FROM todos';

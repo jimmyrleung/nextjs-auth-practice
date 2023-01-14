@@ -5,8 +5,9 @@ async function getAll() {
         }
     });
 
-    if (!getAllResponse.ok) {
-        alert('Something went wrong.');
+    if (getAllResponse.ok) {
+        const responseJson = await getAllResponse.json();
+        return responseJson;
     }
 }
 
