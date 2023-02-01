@@ -25,4 +25,18 @@ export class TodosRepositoryDB implements TodosRepository {
             $done: 0
         });
     }
+    private async getById(id: number): Promise<Todo | undefined> {
+        const [todo] = await this.connection.query('SELECT * FROM todos WHERE id = ?', [id]);
+        return todo as Todo;
+    }
+    async toggleDone(id: number): Promise<void> {
+        const todo = await this.getById(id);
+        if (!todo) return;
+
+        const toggleDoneValue = todo.done ? 0 : 1;
+        await this.connection.query('UPDATE todos SET done = ? WHERE id = ?', [toggleDoneValue, id]);
+    }
+    async remove(id: number): Promise<void> {
+        await this.connection.query('DELETE FROM todos WHERE id = ?', [id]);
+    }
 }

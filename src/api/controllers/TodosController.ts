@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiResponse } from 'next'
 import { NextApiRequestWithSession } from '../middlewares/withSession';
 import { TodosRepository } from './TodosRepository';
 
@@ -10,11 +10,20 @@ export class TodosController {
         res.json(todos);
     }
     async create(req: NextApiRequestWithSession, res: NextApiResponse) {
-        console.log('todosController::req.session', req.session);
         await this.todosRepository.create({
             ...req.body,
             userId: req.session.userId
         });
         res.status(201).json({});
+    }
+    async toggleDone(req: NextApiRequestWithSession, res: NextApiResponse) {
+        const id = req.query.id as string;
+        await this.todosRepository.toggleDone(parseInt(id));
+        res.status(204).json({});
+    }
+    async remove(req: NextApiRequestWithSession, res: NextApiResponse) {
+        const id = req.query.id as string;
+        await this.todosRepository.remove(parseInt(id));
+        res.status(204).json({});
     }
 }

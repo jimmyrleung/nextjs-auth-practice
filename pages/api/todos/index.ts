@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiResponse } from 'next'
 import { TodosController } from '../../../src/api/controllers/TodosController';
 import TodosRepositoryFactory from '../../../src/api/infra/TodosRepositoryFactory';
 import { NextApiRequestWithSession, withSession } from '../../../src/api/middlewares/withSession';
