@@ -22,18 +22,35 @@ const TodosPage: NextPage<{ todos: Todo[] }> = (props) => {
     }
 
     async function onToggleDone(id: number) {
-        await todosService.toggleTodo(id);
-        setTodos(todos => todos.map(todo => {
-            if (todo.id !== id) return todo;
-            return { ...todo, done: !todo.done };
-        }));
+        try {
+            await todosService.toggleTodo(id);
+            setTodos(todos => todos.map(todo => {
+                if (todo.id !== id) return todo;
+                return { ...todo, done: !todo.done };
+            }));
+        } catch (err) {
+            alert('Something went wrong');
+        }
+    }
+
+    async function onRemove(id: number) {
+        try {
+            await todosService.remove(id);
+            setTodos(todos => todos.filter(todo => todo.id !== id));
+        } catch (err) {
+            alert('Something went wrong');
+        }
     }
 
     return (
         <PageContainer className={appStyles.wrapper}>
             <div className={styles.wrapper}>
                 <CreateTodo onSubmit={onCreateSubmit} />
-                <TodosList onToggleDone={onToggleDone} todos={todos} />
+                <TodosList
+                    todos={todos}
+                    onToggleDone={onToggleDone}
+                    onRemoveClick={onRemove}
+                />
             </div>
         </PageContainer>
     )

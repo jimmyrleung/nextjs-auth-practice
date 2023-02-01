@@ -26,7 +26,7 @@ async function create(params: CreateTodoParams) {
     });
 
     if (!createResponse.ok) {
-        alert('Something went wrong.');
+        throw new Error('Something went wrong while creating a new todo')
     }
 }
 
@@ -39,12 +39,12 @@ async function toggleTodo(id: number) {
     });
 
     if (!toggleTodoResponse.ok) {
-        alert('Something went wrong');
+        throw new Error('Something went wrong while completing a todo')
     }
 }
 
 async function remove(id: number) {
-    const removeTodoResponse = await fetch(`/api/todos/${id}`, {
+    const removeTodoResponse = await fetch(`/api/todo/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-type': 'application/json'
@@ -52,7 +52,7 @@ async function remove(id: number) {
     });
 
     if (!removeTodoResponse.ok) {
-        alert('Something went wrong');
+        throw new Error('Something went wrong while deleting a todo')
     }
 }
 

@@ -16,8 +16,8 @@ error - Error: The edge runtime does not support Node.js 'buffer' module.
 7. CRUD Todos
 - GET todos ✓
 - Create todos ✓
-- Check/Uncheck todos
-- Remove todos
+- Check/Uncheck todos ✓
+- Remove todos ✓
 8. Validate token for incoming client requests
 9. Roles
 10. Validar roles

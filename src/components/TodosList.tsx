@@ -6,6 +6,7 @@ import styles from './TodosList.module.css';
 type TodosListProps = {
     todos: Todo[];
     onToggleDone(id: number): Promise<void>;
+    onRemoveClick(id: number): Promise<void>;
 };
 
 export function TodosList(props: TodosListProps) {
@@ -15,8 +16,9 @@ export function TodosList(props: TodosListProps) {
                 <TodoItem
                     key={todo.id}
                     todo={todo}
-                    onToggleDone={props.onToggleDone}
                     className={styles.todoItem}
+                    onToggleDone={props.onToggleDone}
+                    onRemoveClick={props.onRemoveClick}
                 />
             ))}
         </div>
