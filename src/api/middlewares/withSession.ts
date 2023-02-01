@@ -13,9 +13,16 @@ export const withSession = (handler: NextApiRequestHandler) => {
 
         if (!accessToken) {
             // TODO: handle when adding token validation for the API
-            throw new Error('Invalid access token.');
+            return res.status(401).json({ message: 'Access token missing' });
         }
+
         const jwtAdapter = new JWTAdapter();
+        const isValid = jwtAdapter.verify(accessToken, "access");
+
+        if (!isValid) {
+            return res.status(401).json({ message: 'Invalid access token' });
+        }
+
         const jwtPayload = jwtAdapter.decode(accessToken);
 
         // @ts-ignore

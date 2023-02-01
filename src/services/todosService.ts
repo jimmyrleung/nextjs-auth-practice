@@ -44,7 +44,7 @@ async function toggleTodo(id: number) {
 }
 
 async function remove(id: number) {
-    const removeTodoResponse = await fetch(`/api/todo/${id}`, {
+    const removeTodoResponse = await fetch(`/api/todos/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-type': 'application/json'
