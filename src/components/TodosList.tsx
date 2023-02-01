@@ -3,11 +3,21 @@ import { TodoItem } from "./TodoItem";
 
 import styles from './TodosList.module.css';
 
-export function TodosList(props: { todos: Todo[] }) {
+type TodosListProps = {
+    todos: Todo[];
+    onToggleDone(id: number): Promise<void>;
+};
+
+export function TodosList(props: TodosListProps) {
     return (
         <div className={styles.wrapper}>
             {props.todos.map(todo => (
-                <TodoItem className={styles.todoItem} key={todo.id} todo={todo} />
+                <TodoItem
+                    key={todo.id}
+                    todo={todo}
+                    onToggleDone={props.onToggleDone}
+                    className={styles.todoItem}
+                />
             ))}
         </div>
     );

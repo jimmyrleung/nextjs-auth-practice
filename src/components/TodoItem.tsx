@@ -4,9 +4,10 @@ import styles from './TodoItem.module.css';
 interface TodoItemProps {
     todo: Todo;
     className?: string;
+    onToggleDone(id: number): Promise<void>;
 }
 
-export function TodoItem({ todo, className = '' }: TodoItemProps) {
+export function TodoItem({ todo, className = '', onToggleDone }: TodoItemProps) {
     return (
         <div className={`${styles.wrapper} ${className}`}>
             <div>
@@ -18,7 +19,7 @@ export function TodoItem({ todo, className = '' }: TodoItemProps) {
                     type='checkbox'
                     checked={todo.done}
                     className={styles.doneCheck}
-                    onChange={() => console.log('check')}
+                    onChange={() => onToggleDone(todo.id!)}
                 />
             </div>
         </div>
