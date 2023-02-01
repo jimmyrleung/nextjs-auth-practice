@@ -13,6 +13,15 @@ export enum SESSION_STATE {
 export interface Session {
     userId?: number;
     isValid: boolean;
+    roles: string[];
+}
+
+function extractTokenPayload(jwtAdapter: JWTAdapter, token: string) {
+    const jwt = jwtAdapter.decode(token);
+    const payload = jwt?.payload as JwtPayload;
+    const id = payload.id;
+    const roles = payload.roles;
+    return { id, roles };
 }
 
 export function withSession(callback: (session: Session) => void) {
@@ -24,7 +33,7 @@ export function withSession(callback: (session: Session) => void) {
 
         // First time accessing or cookies cleaned up
         if (!accessToken) {
-            return callback({ isValid: false });
+            return callback({ isValid: false, roles: [] });
         }
 
         const tokenModule = new JWTAdapter();
@@ -32,23 +41,19 @@ export function withSession(callback: (session: Session) => void) {
 
         // Previous access token still valid
         if (isAccessTokenValid) {
-            const jwt = tokenModule.decode(refreshToken);
-            const payload = jwt?.payload as JwtPayload;
-            const id = payload.id;
-            return callback({ isValid: true, userId: id });
+            const { id, roles } = extractTokenPayload(tokenModule, refreshToken);
+            return callback({ isValid: true, userId: id, roles });
         }
 
         // Check if refresh token is valid
         const isRefreshTokenValid = tokenModule.verify(refreshToken, 'refresh');
 
         if (!isRefreshTokenValid) {
-            return callback({ isValid: false });
+            return callback({ isValid: false, roles: [] });
         }
 
         // Replicate the token payload
-        const jwt = tokenModule.decode(refreshToken);
-        const payload = jwt?.payload as JwtPayload;
-        const id = payload.id;
+        const { id, roles } = extractTokenPayload(tokenModule, refreshToken);
 
         const newAccessToken = tokenModule.create('access', { id });
         const newRefreshToken = tokenModule.create('refresh', { id });
@@ -66,6 +71,6 @@ export function withSession(callback: (session: Session) => void) {
             path: '/'
         });
 
-        return callback({ isValid: true, userId: id });
+        return callback({ isValid: true, userId: id, roles });
     }
 }

@@ -3,9 +3,24 @@ import { TokenModule } from "./TokenModule";
 import { setCookie } from 'nookies'
 
 const users = [
-    { id: 1, email: 'user1@test.com', password: 'senha123', roles: [] },
-    { id: 2, email: 'user2@test.com', password: 'senha456', roles: [] },
-    { id: 3, email: 'user3@test.com', password: 'senha789', roles: [] },
+    {
+        id: 1,
+        email: 'user1@test.com',
+        password: 'senha123',
+        roles: ['todo:view']
+    },
+    {
+        id: 2,
+        email: 'user2@test.com',
+        password: 'senha456',
+        roles: ['todo:view', 'todo:create', 'todo:toggle']
+    },
+    {
+        id: 3,
+        email: 'user3@test.com',
+        password: 'senha789',
+        roles: ['todo:view', 'todo:create', 'todo:toggle', 'todo:delete']
+    }
 ];
 
 export class AuthController {
@@ -29,8 +44,8 @@ export class AuthController {
             });
         }
 
-        const accessToken = this.tokenModule.create('access', { id: user?.id });
-        const refreshToken = this.tokenModule.create('refresh', { id: user?.id });
+        const accessToken = this.tokenModule.create('access', { id: user?.id, roles: user.roles });
+        const refreshToken = this.tokenModule.create('refresh', { id: user?.id, roles: user.roles });
 
         setCookie({ res }, 'ACCESS_TOKEN_KEY', accessToken, {
             httpOnly: true,

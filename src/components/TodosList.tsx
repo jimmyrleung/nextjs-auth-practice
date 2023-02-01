@@ -1,4 +1,5 @@
 import { Todo } from "../entities";
+import { withRoleCheck } from "../hocs";
 import { TodoItem } from "./TodoItem";
 
 import styles from './TodosList.module.css';
@@ -9,7 +10,7 @@ type TodosListProps = {
     onRemoveClick(id: number): Promise<void>;
 };
 
-export function TodosList(props: TodosListProps) {
+function TodosListComponent(props: TodosListProps) {
     return (
         <div className={styles.wrapper}>
             {props.todos.map(todo => (
@@ -24,3 +25,5 @@ export function TodosList(props: TodosListProps) {
         </div>
     );
 }
+
+export const TodosList = withRoleCheck(TodosListComponent, 'todo:view');

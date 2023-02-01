@@ -19,6 +19,5 @@ error - Error: The edge runtime does not support Node.js 'buffer' module.
 - Check/Uncheck todos ✓
 - Remove todos ✓
 8. Validate token for incoming client requests ✓
-9. Roles
-10. Validar roles
-11. Refactor to a separate API (stop using Next.js)
+9. Roles ✓
+10. Validate roles in the API

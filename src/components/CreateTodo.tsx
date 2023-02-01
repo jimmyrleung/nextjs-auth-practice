@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from "react";
+import { withRoleCheck } from "../hocs";
 import { Button, Input } from "./common";
 
 import styles from './CreateTodo.module.css';
@@ -7,7 +8,7 @@ type CreateTodoProps = {
     onSubmit(params: { title: string, description: string }): Promise<void>;
 }
 
-export function CreateTodo({ onSubmit }: CreateTodoProps) {
+function CreateTodoComponent({ onSubmit }: CreateTodoProps) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     return (
@@ -35,3 +36,5 @@ export function CreateTodo({ onSubmit }: CreateTodoProps) {
         </div>
     );
 }
+
+export const CreateTodo = withRoleCheck(CreateTodoComponent, 'todo:create');

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import appStyles from '../styles/app.module.css';
 import styles from '../styles/todos.module.css';
@@ -9,9 +9,18 @@ import { Session, withSession } from '../src/hocs';
 import TodosRepositoryFactory from '../src/api/infra/TodosRepositoryFactory';
 import { TodosList } from '../src/components/TodosList';
 import { todosService, CreateTodoParams } from '../src/services/todosService';
+import { useSessionContext } from '../src/context/SessionContext';
 
-const TodosPage: NextPage<{ todos: Todo[] }> = (props) => {
+type TodosPageProps = {
+    todos: Todo[],
+    session: Session
+};
+
+const TodosPage: NextPage<TodosPageProps> = (props) => {
     const [todos, setTodos] = useState(props.todos || []);
+    const [_, dispatch] = useSessionContext();
+
+    useEffect(() => dispatch(props.session));
 
     async function onCreateSubmit(params: CreateTodoParams) {
         if (params.title && params.description) {
@@ -76,5 +85,5 @@ export const getServerSideProps = withSession(async (session: Session) => {
         todos = await todosRepository.getAllByUserId(session.userId);
     }
 
-    return { props: { todos } };
+    return { props: { todos, session } };
 });

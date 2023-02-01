@@ -1,6 +1,7 @@
 import { Todo } from '../entities';
-import { Button } from './common';
 import styles from './TodoItem.module.css';
+import { TodoItemDoneCheck } from './TodoItemDoneCheck';
+import { TodoItemRemovebutton } from './TodoItemRemovebutton';
 
 interface TodoItemProps {
     todo: Todo;
@@ -17,13 +18,10 @@ export function TodoItem({ todo, className = '', onToggleDone, onRemoveClick }: 
                 <p className={styles.description}>{todo.description}</p>
             </div>
             <div className={styles.actionsWrapper}>
-                <input
-                    type='checkbox'
-                    checked={todo.done}
-                    className={styles.doneCheck}
-                    onChange={() => onToggleDone(todo.id!)}
-                />
-                <Button onClick={() => onRemoveClick(todo.id!)}>Remove</Button>
+                <>
+                    <TodoItemDoneCheck todo={todo} onToggleDone={onToggleDone} />
+                    <TodoItemRemovebutton todo={todo} onRemoveClick={onRemoveClick} />
+                </>
             </div>
         </div>
     );
