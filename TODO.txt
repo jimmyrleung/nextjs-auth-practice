@@ -21,3 +21,6 @@ error - Error: The edge runtime does not support Node.js 'buffer' module.
 8. Validate token for incoming client requests ✓
 9. Roles ✓
 10. Validate roles in the API
+11. Add unit tests
+12. Add cypress tests
+
